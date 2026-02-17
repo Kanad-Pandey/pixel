@@ -71,6 +71,18 @@ iframe {
     height: 60vh;
     border: 5px solid black;
 }
+
+.shake {
+    animation: shake 0.3s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(-5px); }
+    25% { transform: translateX(5px); }
+    50% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+    100% { transform: translateX(0px); }
+}
 </style>
 </head>
 <body>
@@ -81,7 +93,7 @@ iframe {
     <button class="pixel-btn" onclick="startApp()">Start</button>
 </div>
 
-<!-- DATE -->
+<!-- DATE QUESTION -->
 <div id="dateScreen" class="screen">
     <h3>When was the first time we met? 💭</h3>
     <input type="text" id="dateInput" placeholder="1 Feb 26">
@@ -100,14 +112,30 @@ iframe {
 <!-- VIDEO SCREEN -->
 <div id="videoScreen" class="screen">
     <h2 style="margin-bottom:20px;">This is for you 💖</h2>
-    <iframe id="ytVideo"
+
+    <!-- FIRST VIDEO -->
+    <iframe id="ytVideo1"
         src=""
         allow="autoplay; encrypted-media"
         allowfullscreen>
     </iframe>
+
+    <!-- SURPRISE BUTTON -->
+    <button id="surpriseBtn" class="pixel-btn"
+        style="display:none; margin-top:25px;">
+        🎁 Surprise
+    </button>
+
+    <!-- SECOND VIDEO -->
+    <iframe id="ytVideo2"
+        src=""
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+        style="display:none; margin-top:20px;">
+    </iframe>
 </div>
 
-<!-- BACKGROUND MUSIC -->
+<!-- MUSIC -->
 <audio id="bgMusic" loop>
 <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4e7c4f9b1a.mp3" type="audio/mpeg">
 </audio>
@@ -123,8 +151,6 @@ let yesScale = 1;
 function startApp() {
     document.getElementById("introScreen").style.display = "none";
     document.getElementById("dateScreen").style.display = "flex";
-    
-    // Music now works because triggered after click
     bgMusic.play().catch(() => {});
 }
 
@@ -139,7 +165,10 @@ function checkDate() {
         yesBtn.style.display = "block";
         noBtn.style.display = "block";
     } else {
-        document.getElementById("errorMsg").innerHTML = "That's not our special day 😢";
+        let error = document.getElementById("errorMsg");
+        error.innerHTML = "That's not our special day 😢";
+        error.classList.add("shake");
+        setTimeout(() => error.classList.remove("shake"), 300);
     }
 }
 
@@ -147,10 +176,8 @@ function checkDate() {
 function moveNo() {
     yesScale += 0.25;
     yesBtn.style.transform = "scale(" + yesScale + ")";
-
     let x = Math.random() * (window.innerWidth - 150);
     let y = Math.random() * (window.innerHeight - 150);
-
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 }
@@ -165,16 +192,33 @@ yesBtn.addEventListener("click", function() {
     document.getElementById("mainScreen").style.display = "none";
     yesBtn.style.display = "none";
     noBtn.style.display = "none";
-
     document.getElementById("videoScreen").style.display = "flex";
 
-    // 🔥 PUT YOUR YOUTUBE VIDEO ID BELOW
-    let videoID = "dQw4w9WgXcQ";  // replace this
-    document.getElementById("ytVideo").src =
-        "https://www.youtube.com/embed/" + videoID + "?autoplay=1";
+    // FIRST VIDEO
+    let videoID1 = "dQw4w9WgXcQ";  // keep or change
+    document.getElementById("ytVideo1").src =
+        "https://www.youtube.com/embed/" + videoID1 + "?autoplay=1";
+
+    // Show Surprise after 5 sec
+    setTimeout(() => {
+        document.getElementById("surpriseBtn").style.display = "block";
+    }, 5000);
+});
+
+/* SURPRISE BUTTON */
+document.getElementById("surpriseBtn")
+.addEventListener("click", function() {
+
+    // 🔥 PUT YOUR SECOND VIDEO ID HERE
+    let videoID2 = "YOUR_VIDEO_ID_HERE";
+
+    document.getElementById("ytVideo2").style.display = "block";
+    document.getElementById("ytVideo2").src =
+        "https://www.youtube.com/embed/" + videoID2 + "?autoplay=1";
+
+    this.style.display = "none";
 });
 
 </script>
-
 </body>
 </html>
