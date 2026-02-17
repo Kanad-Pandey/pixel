@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; }
-
 body {
     margin: 0;
     height: 100vh;
@@ -21,153 +19,132 @@ body {
     align-items: center;
 }
 
-/* INTRO SCREEN */
-#introScreen {
+.screen {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #000;
-    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    z-index: 10;
     text-align: center;
 }
 
+#introScreen { background: black; color: white; }
+#dateScreen, #mainScreen, #videoScreen { display: none; }
+
 .pixel-btn {
-    padding: 15px 25px;
-    margin-top: 30px;
-    border: 4px solid white;
+    padding: 12px 20px;
+    margin-top: 20px;
+    border: 4px solid black;
     background: #ff1493;
     color: white;
     cursor: pointer;
-    box-shadow: 6px 6px 0px #fff;
+    box-shadow: 5px 5px 0px black;
+    font-family: 'Press Start 2P', cursive;
 }
 
-.container {
+input {
+    padding: 10px;
+    margin-top: 20px;
+    border: 3px solid black;
+    font-family: 'Press Start 2P', cursive;
     text-align: center;
-    width: 90%;
-    max-width: 500px;
-}
-
-h1 {
-    font-size: clamp(14px, 3vw, 20px);
-    color: #ff1493;
-    margin-bottom: 40px;
 }
 
 .btn {
-    font-family: 'Press Start 2P', cursive;
     padding: 15px 25px;
-    font-size: clamp(12px, 2.5vw, 16px);
     border: 4px solid black;
     cursor: pointer;
     position: absolute;
-    transition: all 0.3s ease;
     box-shadow: 6px 6px 0px black;
 }
 
-#yesBtn {
-    background-color: #7CFC00;
-    left: 30%;
-    top: 65%;
-}
+#yesBtn { background: #7CFC00; left: 30%; top: 65%; display: none; }
+#noBtn { background: #ff4d4d; left: 55%; top: 65%; display: none; }
 
-#noBtn {
-    background-color: #ff4d4d;
-    left: 55%;
-    top: 65%;
-}
+#errorMsg { color: red; margin-top: 15px; }
 
-#musicToggle {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    font-size: 12px;
-    padding: 10px;
-    background: #000;
-    color: #fff;
-    border: 3px solid white;
-    cursor: pointer;
+iframe {
+    width: 90%;
+    max-width: 800px;
+    height: 60vh;
+    border: 5px solid black;
 }
-
-.hearts {
-    position: fixed;
-    font-size: 20px;
-    animation: floatUp 3s linear forwards;
-}
-
-@keyframes floatUp {
-    0% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-200px) scale(1.5); }
-}
-
 </style>
 </head>
 <body>
 
 <!-- INTRO -->
-<div id="introScreen">
+<div id="introScreen" class="screen">
     <h2>💖 A Special Pixel Message 💖</h2>
-    <button class="pixel-btn" onclick="startGame()">Start</button>
+    <button class="pixel-btn" onclick="startApp()">Start</button>
 </div>
 
-<!-- MAIN CONTENT -->
-<div class="container">
+<!-- DATE -->
+<div id="dateScreen" class="screen">
+    <h3>When was the first time we met? 💭</h3>
+    <input type="text" id="dateInput" placeholder="1 Feb 26">
+    <button class="pixel-btn" onclick="checkDate()">Submit</button>
+    <div id="errorMsg"></div>
+</div>
+
+<!-- MAIN QUESTION -->
+<div id="mainScreen" class="screen">
     <h1 id="question">Will You Be My Girlfriend? 💖</h1>
 </div>
 
-<button class="btn" id="yesBtn">YES 💚</button>
-<button class="btn" id="noBtn">NO 💔</button>
+<button id="yesBtn" class="btn">YES 💚</button>
+<button id="noBtn" class="btn">NO 💔</button>
 
-<button id="musicToggle">🔊 Music</button>
+<!-- VIDEO SCREEN -->
+<div id="videoScreen" class="screen">
+    <h2 style="margin-bottom:20px;">This is for you 💖</h2>
+    <iframe id="ytVideo"
+        src=""
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+    </iframe>
+</div>
 
-<!-- AUDIO -->
+<!-- BACKGROUND MUSIC -->
 <audio id="bgMusic" loop>
 <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4e7c4f9b1a.mp3" type="audio/mpeg">
 </audio>
 
-<audio id="clickSound">
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_8a4c2e6e4c.mp3" type="audio/mpeg">
-</audio>
-
-<audio id="winSound">
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_d5f4e0c22e.mp3" type="audio/mpeg">
-</audio>
-
 <script>
+
+let bgMusic = document.getElementById("bgMusic");
 let yesBtn = document.getElementById("yesBtn");
 let noBtn = document.getElementById("noBtn");
-let question = document.getElementById("question");
-let bgMusic = document.getElementById("bgMusic");
-let clickSound = document.getElementById("clickSound");
-let winSound = document.getElementById("winSound");
-
 let yesScale = 1;
 
-/* Start Game */
-function startGame() {
+/* START */
+function startApp() {
     document.getElementById("introScreen").style.display = "none";
-    bgMusic.play();
+    document.getElementById("dateScreen").style.display = "flex";
+    
+    // Music now works because triggered after click
+    bgMusic.play().catch(() => {});
 }
 
-/* Music Toggle */
-document.getElementById("musicToggle").onclick = function() {
-    if (bgMusic.paused) {
-        bgMusic.play();
-        this.innerText = "🔊 Music";
+/* DATE CHECK */
+function checkDate() {
+    let input = document.getElementById("dateInput").value.trim().toLowerCase();
+    let correct = ["1 feb 26","01 feb 26","1 february 26"];
+
+    if (correct.includes(input)) {
+        document.getElementById("dateScreen").style.display = "none";
+        document.getElementById("mainScreen").style.display = "flex";
+        yesBtn.style.display = "block";
+        noBtn.style.display = "block";
     } else {
-        bgMusic.pause();
-        this.innerText = "🔈 Muted";
+        document.getElementById("errorMsg").innerHTML = "That's not our special day 😢";
     }
-};
+}
 
-/* NO Button Logic */
+/* NO BUTTON ESCAPE */
 function moveNo() {
-    clickSound.play();
-
     yesScale += 0.25;
     yesBtn.style.transform = "scale(" + yesScale + ")";
 
@@ -177,32 +154,26 @@ function moveNo() {
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 }
-
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("click", moveNo);
 
-/* YES Button */
+/* YES BUTTON */
 yesBtn.addEventListener("click", function() {
-    winSound.play();
-    question.innerHTML = "YAYYYYYY 💖✨";
+
+    bgMusic.pause();
+
+    document.getElementById("mainScreen").style.display = "none";
     yesBtn.style.display = "none";
     noBtn.style.display = "none";
-    celebrate();
+
+    document.getElementById("videoScreen").style.display = "flex";
+
+    // 🔥 PUT YOUR YOUTUBE VIDEO ID BELOW
+    let videoID = "dQw4w9WgXcQ";  // replace this
+    document.getElementById("ytVideo").src =
+        "https://www.youtube.com/embed/" + videoID + "?autoplay=1";
 });
 
-/* Celebration */
-function celebrate() {
-    for (let i = 0; i < 40; i++) {
-        let heart = document.createElement("div");
-        heart.innerHTML = "💖";
-        heart.classList.add("hearts");
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.top = window.innerHeight + "px";
-        document.body.appendChild(heart);
-
-        setTimeout(() => { heart.remove(); }, 3000);
-    }
-}
 </script>
 
 </body>
