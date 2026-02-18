@@ -3,97 +3,157 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pixel Proposal 💖</title>
-
+<title>Our Story 💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    margin: 0;
-    height: 100vh;
     font-family: 'Press Start 2P', cursive;
-    background: linear-gradient(135deg, #ffb6f9, #b5d8ff);
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: linear-gradient(135deg,#ffb6f9,#b5d8ff);
+    overflow-x: hidden;
 }
 
+/* SCREEN */
 .screen {
-    position: absolute;
+    min-height: 100vh;
     width: 100%;
-    height: 100%;
-    display: flex;
+    display: none;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     text-align: center;
+    padding: 20px;
+    transition: opacity 0.8s ease;
 }
 
-#introScreen { background: black; color: white; }
-#dateScreen, #mainScreen, #videoScreen { display: none; }
+.fade-in { animation: fadeIn 0.8s forwards; }
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
 
-.pixel-btn {
-    padding: 12px 20px;
+/* INTRO */
+#introScreen {
+    display: flex;
+    background: black;
+    color: white;
+}
+
+/* HEADINGS */
+h1,h2,h3 {
+    font-size: clamp(18px,4vw,26px);
+}
+
+/* INPUT */
+input {
     margin-top: 20px;
+    padding: 12px;
+    width: 90%;
+    max-width: 300px;
+    border: 3px solid black;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+}
+
+/* BUTTONS */
+.pixel-btn {
+    margin-top: 20px;
+    padding: 12px 20px;
     border: 4px solid black;
     background: #ff1493;
     color: white;
     cursor: pointer;
     box-shadow: 5px 5px 0px black;
-    font-family: 'Press Start 2P', cursive;
+    font-family: inherit;
 }
 
-input {
-    padding: 10px;
-    margin-top: 20px;
-    border: 3px solid black;
-    font-family: 'Press Start 2P', cursive;
-    text-align: center;
+.button-container {
+    position: relative;
+    margin-top: 40px;
+    width: 100%;
+    height: 200px;
 }
 
 .btn {
+    position: absolute;
     padding: 15px 25px;
     border: 4px solid black;
     cursor: pointer;
-    position: absolute;
     box-shadow: 6px 6px 0px black;
+    font-family: inherit;
 }
 
-#yesBtn { background: #7CFC00; left: 30%; top: 65%; display: none; }
-#noBtn { background: #ff4d4d; left: 55%; top: 65%; display: none; }
+#yesBtn { background:#7CFC00; left:20%; }
+#noBtn { background:#ff4d4d; right:20%; }
 
-#errorMsg { color: red; margin-top: 15px; }
+#errorMsg { color:red; margin-top:15px; }
 
-iframe {
-    width: 90%;
+/* VIDEO */
+.video-wrapper {
+    position: relative;
+    width: 100%;
     max-width: 800px;
-    height: 60vh;
-    border: 5px solid black;
+    padding-top: 56.25%;
+    margin-top: 20px;
+}
+.video-wrapper iframe {
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    border:5px solid black;
 }
 
-.shake {
-    animation: shake 0.3s;
+/* STARS */
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    overflow: hidden;
+    z-index: -1;
+}
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    animation: twinkle 2s infinite ease-in-out alternate;
+}
+@keyframes twinkle {
+    from { opacity:0.2; }
+    to { opacity:1; }
 }
 
-@keyframes shake {
-    0% { transform: translateX(-5px); }
-    25% { transform: translateX(5px); }
-    50% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-    100% { transform: translateX(0px); }
+/* HEART RAIN */
+.heart {
+    position: fixed;
+    color: pink;
+    font-size: 20px;
+    animation: fall 3s linear forwards;
 }
+@keyframes fall {
+    to { transform: translateY(100vh); opacity:0; }
+}
+
+/* CONFETTI */
+.confetti {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    animation: confettiFall 3s linear forwards;
+}
+@keyframes confettiFall {
+    to { transform: translateY(100vh) rotate(360deg); opacity:0; }
+}
+
 </style>
 </head>
 <body>
 
-<!-- INTRO -->
-<div id="introScreen" class="screen">
+<div id="introScreen" class="screen fade-in">
     <h2>💖 A Special Pixel Message 💖</h2>
     <button class="pixel-btn" onclick="startApp()">Start</button>
 </div>
 
-<!-- DATE QUESTION -->
 <div id="dateScreen" class="screen">
     <h3>When was the first time we met? 💭</h3>
     <input type="text" id="dateInput" placeholder="1 Feb 26">
@@ -101,41 +161,29 @@ iframe {
     <div id="errorMsg"></div>
 </div>
 
-<!-- MAIN QUESTION -->
 <div id="mainScreen" class="screen">
-    <h1 id="question">Will You Be My Girlfriend? 💖</h1>
+    <h1>Will You Be My Girlfriend? 💖</h1>
+    <div class="button-container">
+        <button id="yesBtn" class="btn">YES 💚</button>
+        <button id="noBtn" class="btn">NO 💔</button>
+    </div>
 </div>
 
-<button id="yesBtn" class="btn">YES 💚</button>
-<button id="noBtn" class="btn">NO 💔</button>
-
-<!-- VIDEO SCREEN -->
 <div id="videoScreen" class="screen">
-    <h2 style="margin-bottom:20px;">This is for you 💖</h2>
+    <div class="stars" id="stars"></div>
+    <h2>This is for you 💖</h2>
 
-    <!-- FIRST VIDEO -->
-    <iframe id="ytVideo1"
-        src=""
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-    </iframe>
+    <div class="video-wrapper">
+        <iframe id="ytVideo1" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
 
-    <!-- SURPRISE BUTTON -->
-    <button id="surpriseBtn" class="pixel-btn"
-        style="display:none; margin-top:25px;">
-        🎁 Surprise
-    </button>
+    <button id="surpriseBtn" class="pixel-btn" style="display:none;">🎁 Surprise</button>
 
-    <!-- SECOND VIDEO -->
-    <iframe id="ytVideo2"
-        src=""
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-        style="display:none; margin-top:20px;">
-    </iframe>
+    <div class="video-wrapper" id="secondVideoWrapper" style="display:none;">
+        <iframe id="ytVideo2" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
 </div>
 
-<!-- MUSIC -->
 <audio id="bgMusic" loop>
 <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4e7c4f9b1a.mp3" type="audio/mpeg">
 </audio>
@@ -147,77 +195,103 @@ let yesBtn = document.getElementById("yesBtn");
 let noBtn = document.getElementById("noBtn");
 let yesScale = 1;
 
+/* FADE SWITCH */
+function switchScreen(hide, show){
+    document.getElementById(hide).style.display="none";
+    let s=document.getElementById(show);
+    s.style.display="flex";
+    s.classList.add("fade-in");
+}
+
 /* START */
-function startApp() {
-    document.getElementById("introScreen").style.display = "none";
-    document.getElementById("dateScreen").style.display = "flex";
-    bgMusic.play().catch(() => {});
+function startApp(){
+    switchScreen("introScreen","dateScreen");
+    bgMusic.play().catch(()=>{});
 }
 
 /* DATE CHECK */
-function checkDate() {
-    let input = document.getElementById("dateInput").value.trim().toLowerCase();
-    let correct = ["1 feb 26","01 feb 26","1 february 26"];
-
-    if (correct.includes(input)) {
-        document.getElementById("dateScreen").style.display = "none";
-        document.getElementById("mainScreen").style.display = "flex";
-        yesBtn.style.display = "block";
-        noBtn.style.display = "block";
+function checkDate(){
+    let input=document.getElementById("dateInput").value.trim().toLowerCase();
+    if(["1 feb 26","01 feb 26","1 february 26"].includes(input)){
+        switchScreen("dateScreen","mainScreen");
     } else {
-        let error = document.getElementById("errorMsg");
-        error.innerHTML = "That's not our special day 😢";
-        error.classList.add("shake");
-        setTimeout(() => error.classList.remove("shake"), 300);
+        let e=document.getElementById("errorMsg");
+        e.innerHTML="That's not our special day 😢";
     }
 }
 
-/* NO BUTTON ESCAPE */
-function moveNo() {
-    yesScale += 0.25;
-    yesBtn.style.transform = "scale(" + yesScale + ")";
-    let x = Math.random() * (window.innerWidth - 150);
-    let y = Math.random() * (window.innerHeight - 150);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+/* NO ESCAPE */
+function moveNo(){
+    yesScale+=0.15;
+    yesBtn.style.transform="scale("+yesScale+")";
+    let c=document.querySelector(".button-container");
+    noBtn.style.left=Math.random()*(c.clientWidth-100)+"px";
+    noBtn.style.top=Math.random()*(c.clientHeight-50)+"px";
 }
-noBtn.addEventListener("mouseover", moveNo);
-noBtn.addEventListener("click", moveNo);
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("click",moveNo);
 
-/* YES BUTTON */
-yesBtn.addEventListener("click", function() {
-
+/* YES */
+yesBtn.addEventListener("click",()=>{
     bgMusic.pause();
-
-    document.getElementById("mainScreen").style.display = "none";
-    yesBtn.style.display = "none";
-    noBtn.style.display = "none";
-    document.getElementById("videoScreen").style.display = "flex";
-
-    // FIRST VIDEO
-    let videoID1 = "dQw4w9WgXcQ";  // keep or change
-    document.getElementById("ytVideo1").src =
-        "https://www.youtube.com/embed/" + videoID1 + "?autoplay=1";
-
-    // Show Surprise after 5 sec
-    setTimeout(() => {
-        document.getElementById("surpriseBtn").style.display = "block";
-    }, 5000);
+    launchConfetti();
+    heartRain();
+    setTimeout(()=>{
+        switchScreen("mainScreen","videoScreen");
+        launchStars();
+        document.getElementById("ytVideo1").src=
+        "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+        setTimeout(()=>{ 
+            document.getElementById("surpriseBtn").style.display="block";
+        },5000);
+    },1500);
 });
 
-/* SURPRISE BUTTON */
-document.getElementById("surpriseBtn")
-.addEventListener("click", function() {
+/* SURPRISE */
+document.getElementById("surpriseBtn").onclick=function(){
+    document.getElementById("secondVideoWrapper").style.display="block";
+    document.getElementById("ytVideo2").src=
+    "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE?autoplay=1";
+    this.style.display="none";
+};
 
-    // 🔥 PUT YOUR SECOND VIDEO ID HERE
-    let videoID2 = "YOUR_VIDEO_ID_HERE";
+/* HEART RAIN */
+function heartRain(){
+    for(let i=0;i<25;i++){
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="💖";
+        h.style.left=Math.random()*100+"vw";
+        h.style.top="-20px";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),3000);
+    }
+}
 
-    document.getElementById("ytVideo2").style.display = "block";
-    document.getElementById("ytVideo2").src =
-        "https://www.youtube.com/embed/" + videoID2 + "?autoplay=1";
+/* CONFETTI */
+function launchConfetti(){
+    for(let i=0;i<40;i++){
+        let c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.backgroundColor=
+        ["#ff0","#0ff","#f0f","#0f0","#f00"][Math.floor(Math.random()*5)];
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),3000);
+    }
+}
 
-    this.style.display = "none";
-});
+/* STARS */
+function launchStars(){
+    let starContainer=document.getElementById("stars");
+    for(let i=0;i<100;i++){
+        let s=document.createElement("div");
+        s.className="star";
+        s.style.left=Math.random()*100+"%";
+        s.style.top=Math.random()*100+"%";
+        starContainer.appendChild(s);
+    }
+}
 
 </script>
 </body>
