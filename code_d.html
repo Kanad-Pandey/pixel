@@ -146,14 +146,15 @@ input {
     <div class="sunflower sun3">🌻</div>
 
     <h2>For You 🌻</h2>
-    <div class="giveText">I brought you sunflowers…</div>
-    <button class="pixel-btn" onclick="startApp()">Accept 🌻</button>
+    <div class="giveText">Digital Sunflowers for Drishti - always there with you</div>
+    <button class="pixel-btn" onclick="startApp()">Say Thank you Sir 🌻</button>
 </div>
 
 <!-- DATE SCREEN -->
 <div id="dateScreen" class="screen">
+    <h2>Now you have to answer this first</h2>
     <h3>When was the first time we met? 💭</h3>
-    <input type="text" id="dateInput" placeholder="1 Feb 26">
+    <input type="text" id="dateInput" placeholder="">
     <button class="pixel-btn" onclick="checkDate()">Submit</button>
     <div id="errorMsg"></div>
 </div>
@@ -162,7 +163,7 @@ input {
 <div id="mainScreen" class="screen">
     <h1>Will You Be My Girlfriend? 💖</h1>
     <div class="button-container">
-        <button id="yesBtn" class="btn">YES 💚</button>
+        <button id="yesBtn" class="btn">YESSSSS 💚</button>
         <button id="noBtn" class="btn">NO 💔</button>
     </div>
 </div>
@@ -175,12 +176,12 @@ input {
         <iframe id="ytVideo1" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
-    <button id="floatingSurprise">🎁 Surprise</button>
+    <button id="floatingSurprise">🎁 Surprise - Please Click Me</button>
 </div>
 
 <!-- FINAL VIDEO SCREEN -->
 <div id="finalScreen" class="screen">
-    <h2>Just For You 💍</h2>
+    <h2>Me in Virtual Reality</h2>
     <div class="video-wrapper">
         <iframe id="ytVideoFinal" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
@@ -284,9 +285,10 @@ function move(){
 surprise.onclick=function(){
     switchScreen("videoScreen","finalScreen");
     document.getElementById("ytVideoFinal").src=
-    "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE?autoplay=1";
+    "https://www.youtube.com/embed/iCSg_ul3G2w?autoplay=1";
 };
 
 </script>
 </body>
 </html>
+
