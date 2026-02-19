@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Story 💖</title>
+<title>For You 🌻💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
     font-family: 'Press Start 2P', cursive;
-    background: linear-gradient(135deg,#ffb6f9,#b5d8ff);
     overflow-x: hidden;
 }
 
-/* SCREEN */
+/* GENERAL SCREEN */
 .screen {
     min-height: 100vh;
     width: 100%;
@@ -25,71 +24,86 @@ body {
     align-items: center;
     text-align: center;
     padding: 20px;
-    transition: opacity 0.8s ease;
 }
 
-.fade-in { animation: fadeIn 0.8s forwards; }
-@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-
+/* 🌻 SUNFLOWER INTRO */
 #introScreen {
-    display: flex;
-    background: black;
-    color: white;
+    display:flex;
+    background: linear-gradient(#ffd54f,#ffb300);
+    color:#4e342e;
+    position:relative;
+    overflow:hidden;
 }
 
-h1,h2,h3 {
-    font-size: clamp(18px,4vw,26px);
+.sunflower {
+    position:absolute;
+    font-size:40px;
+    animation: floatSun 6s infinite ease-in-out alternate;
 }
 
+@keyframes floatSun {
+    from { transform: translateY(0px) rotate(0deg); }
+    to { transform: translateY(-20px) rotate(10deg); }
+}
+
+.sun1 { top:10%; left:10%; }
+.sun2 { bottom:15%; right:15%; }
+.sun3 { top:20%; right:10%; }
+
+.giveText {
+    margin-top:30px;
+    font-size: clamp(16px,4vw,24px);
+}
+
+/* INPUT */
 input {
-    margin-top: 20px;
-    padding: 12px;
-    width: 90%;
-    max-width: 300px;
-    border: 3px solid black;
-    text-align: center;
-    font-family: inherit;
+    margin-top:20px;
+    padding:12px;
+    width:90%;
+    max-width:300px;
+    border:3px solid black;
+    text-align:center;
+    font-family:inherit;
 }
 
+/* BUTTONS */
 .pixel-btn {
-    margin-top: 20px;
-    padding: 12px 20px;
-    border: 4px solid black;
-    background: #ff1493;
-    color: white;
-    cursor: pointer;
-    box-shadow: 5px 5px 0px black;
-    font-family: inherit;
+    margin-top:20px;
+    padding:12px 20px;
+    border:4px solid black;
+    background:#ff1493;
+    color:white;
+    cursor:pointer;
+    box-shadow:5px 5px 0 black;
+    font-family:inherit;
 }
 
 .button-container {
-    position: relative;
-    margin-top: 40px;
-    width: 100%;
-    height: 200px;
+    position:relative;
+    margin-top:40px;
+    width:100%;
+    height:200px;
 }
 
 .btn {
-    position: absolute;
-    padding: 15px 25px;
-    border: 4px solid black;
-    cursor: pointer;
-    box-shadow: 6px 6px 0px black;
-    font-family: inherit;
+    position:absolute;
+    padding:15px 25px;
+    border:4px solid black;
+    cursor:pointer;
+    box-shadow:6px 6px 0 black;
+    font-family:inherit;
 }
 
 #yesBtn { background:#7CFC00; left:20%; }
 #noBtn { background:#ff4d4d; right:20%; }
 
-#errorMsg { color:red; margin-top:15px; }
-
-/* VIDEO */
+/* VIDEO WRAPPER */
 .video-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 800px;
-    padding-top: 56.25%;
-    margin-top: 20px;
+    position:relative;
+    width:100%;
+    max-width:800px;
+    padding-top:56.25%;
+    margin-top:20px;
 }
 .video-wrapper iframe {
     position:absolute;
@@ -98,58 +112,45 @@ input {
     border:5px solid black;
 }
 
-/* STARS */
-.stars {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: black;
-    overflow: hidden;
-    z-index: -1;
-}
-.star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    animation: twinkle 2s infinite ease-in-out alternate;
-}
-@keyframes twinkle {
-    from { opacity:0.2; }
-    to { opacity:1; }
-}
-
-/* HEART RAIN */
-.heart {
-    position: fixed;
-    color: pink;
-    font-size: 20px;
-    animation: fall 3s linear forwards;
-}
-@keyframes fall {
-    to { transform: translateY(100vh); opacity:0; }
+/* FLOATING SURPRISE */
+#floatingSurprise {
+    position:absolute;
+    padding:15px 20px;
+    background:#ff69b4;
+    color:white;
+    border:4px solid black;
+    cursor:pointer;
+    display:none;
+    box-shadow:5px 5px 0 black;
 }
 
 /* CONFETTI */
 .confetti {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    animation: confettiFall 3s linear forwards;
+    position:fixed;
+    width:8px;
+    height:8px;
+    animation: fall 3s linear forwards;
 }
-@keyframes confettiFall {
-    to { transform: translateY(100vh) rotate(360deg); opacity:0; }
+@keyframes fall {
+    to { transform:translateY(100vh) rotate(360deg); opacity:0; }
 }
 
 </style>
 </head>
 <body>
 
-<div id="introScreen" class="screen fade-in">
-    <h2>💖 A Special Pixel Message 💖</h2>
-    <button class="pixel-btn" onclick="startApp()">Start</button>
+<!-- 🌻 INTRO -->
+<div id="introScreen" class="screen">
+    <div class="sunflower sun1">🌻</div>
+    <div class="sunflower sun2">🌻</div>
+    <div class="sunflower sun3">🌻</div>
+
+    <h2>For You 🌻</h2>
+    <div class="giveText">I brought you sunflowers…</div>
+    <button class="pixel-btn" onclick="startApp()">Accept 🌻</button>
 </div>
 
+<!-- DATE SCREEN -->
 <div id="dateScreen" class="screen">
     <h3>When was the first time we met? 💭</h3>
     <input type="text" id="dateInput" placeholder="1 Feb 26">
@@ -157,6 +158,7 @@ input {
     <div id="errorMsg"></div>
 </div>
 
+<!-- MAIN QUESTION -->
 <div id="mainScreen" class="screen">
     <h1>Will You Be My Girlfriend? 💖</h1>
     <div class="button-container">
@@ -165,131 +167,87 @@ input {
     </div>
 </div>
 
+<!-- FIRST VIDEO SCREEN -->
 <div id="videoScreen" class="screen">
-    <div class="stars" id="stars"></div>
     <h2>This is for you 💖</h2>
 
     <div class="video-wrapper">
         <iframe id="ytVideo1" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
-    <button id="surpriseBtn" class="pixel-btn" style="display:none;">🎁 Surprise</button>
+    <button id="floatingSurprise">🎁 Surprise</button>
+</div>
 
-    <div class="video-wrapper" id="secondVideoWrapper" style="display:none;">
-        <iframe id="ytVideo2" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<!-- FINAL VIDEO SCREEN -->
+<div id="finalScreen" class="screen">
+    <h2>Just For You 💍</h2>
+    <div class="video-wrapper">
+        <iframe id="ytVideoFinal" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 </div>
 
-<!-- AUDIO FILES -->
-<audio id="bgMusic" preload="auto" loop>
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<audio id="yaySound" preload="auto">
+<audio id="yaySound">
     <source src="yay.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-let bgMusic = document.getElementById("bgMusic");
-let yaySound = document.getElementById("yaySound");
-let yesBtn = document.getElementById("yesBtn");
-let noBtn = document.getElementById("noBtn");
-let yesScale = 1;
+let bgMusic=document.getElementById("bgMusic");
+let yaySound=document.getElementById("yaySound");
+let yesBtn=document.getElementById("yesBtn");
+let noBtn=document.getElementById("noBtn");
 
-function switchScreen(hide, show){
+function switchScreen(hide,show){
     document.getElementById(hide).style.display="none";
-    let s=document.getElementById(show);
-    s.style.display="flex";
-    s.classList.add("fade-in");
+    document.getElementById(show).style.display="flex";
 }
 
 /* START */
 function startApp(){
     switchScreen("introScreen","dateScreen");
-    bgMusic.volume = 0.6;
     bgMusic.play().catch(()=>{});
 }
 
-/* DATE CHECK */
+/* DATE */
 function checkDate(){
     let input=document.getElementById("dateInput").value.trim().toLowerCase();
     if(["1 feb 26","01 feb 26","1 february 26"].includes(input)){
         switchScreen("dateScreen","mainScreen");
     } else {
-        document.getElementById("errorMsg").innerHTML="That's not our special day 😢";
+        document.getElementById("errorMsg").innerHTML="That's not our day 😢";
     }
 }
 
 /* NO ESCAPE */
-function moveNo(){
-    yesScale+=0.15;
-    yesBtn.style.transform="scale("+yesScale+")";
-    let c=document.querySelector(".button-container");
-    noBtn.style.left=Math.random()*(c.clientWidth-100)+"px";
-    noBtn.style.top=Math.random()*(c.clientHeight-50)+"px";
-}
-noBtn.addEventListener("mouseover",moveNo);
-noBtn.addEventListener("click",moveNo);
+noBtn.addEventListener("mouseover",()=>{
+    noBtn.style.left=Math.random()*60+"%";
+    noBtn.style.top=Math.random()*60+"%";
+});
 
-/* YES CLICK */
+/* YES */
 yesBtn.addEventListener("click",()=>{
-
-    // Smooth fade out background music
-    let fade = setInterval(()=>{
-        if(bgMusic.volume>0.05){
-            bgMusic.volume-=0.05;
-        } else {
-            bgMusic.pause();
-            bgMusic.currentTime=0;
-            clearInterval(fade);
-        }
-    },100);
-
-    yaySound.volume=1;
+    bgMusic.pause();
     yaySound.play().catch(()=>{});
-
     launchConfetti();
-    heartRain();
 
     setTimeout(()=>{
         switchScreen("mainScreen","videoScreen");
-        launchStars();
-
         document.getElementById("ytVideo1").src=
         "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
 
-        setTimeout(()=>{
-            document.getElementById("surpriseBtn").style.display="block";
-        },5000);
+        startFloatingSurprise();
 
-    },1500);
+    },1200);
 });
-
-/* SURPRISE */
-document.getElementById("surpriseBtn").onclick=function(){
-    document.getElementById("secondVideoWrapper").style.display="block";
-    document.getElementById("ytVideo2").src=
-    "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE?autoplay=1";
-    this.style.display="none";
-};
-
-/* HEART RAIN */
-function heartRain(){
-    for(let i=0;i<25;i++){
-        let h=document.createElement("div");
-        h.className="heart";
-        h.innerHTML="💖";
-        h.style.left=Math.random()*100+"vw";
-        h.style.top="-20px";
-        document.body.appendChild(h);
-        setTimeout(()=>h.remove(),3000);
-    }
-}
 
 /* CONFETTI */
 function launchConfetti(){
-    for(let i=0;i<40;i++){
+    for(let i=0;i<30;i++){
         let c=document.createElement("div");
         c.className="confetti";
         c.style.left=Math.random()*100+"vw";
@@ -300,17 +258,34 @@ function launchConfetti(){
     }
 }
 
-/* STARS */
-function launchStars(){
-    let starContainer=document.getElementById("stars");
-    for(let i=0;i<100;i++){
-        let s=document.createElement("div");
-        s.className="star";
-        s.style.left=Math.random()*100+"%";
-        s.style.top=Math.random()*100+"%";
-        starContainer.appendChild(s);
-    }
+/* FLOATING SURPRISE */
+let surprise=document.getElementById("floatingSurprise");
+let x=100,y=100,dx=2,dy=2;
+
+function startFloatingSurprise(){
+    surprise.style.display="block";
+    move();
 }
+
+function move(){
+    x+=dx;
+    y+=dy;
+
+    if(x+surprise.offsetWidth>window.innerWidth||x<0) dx*=-1;
+    if(y+surprise.offsetHeight>window.innerHeight||y<0) dy*=-1;
+
+    surprise.style.left=x+"px";
+    surprise.style.top=y+"px";
+
+    requestAnimationFrame(move);
+}
+
+/* CLICK SURPRISE */
+surprise.onclick=function(){
+    switchScreen("videoScreen","finalScreen");
+    document.getElementById("ytVideoFinal").src=
+    "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE?autoplay=1";
+};
 
 </script>
 </body>
