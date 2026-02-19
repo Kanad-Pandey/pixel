@@ -144,7 +144,7 @@ input {
 <div id="introScreen" class="screen">
 
     
-    <h2>This is for the very very very special girl in my life - DRISHTI 🌻</h2>
+    <h3>This is for the very very very special girl in my life - DRISHTI 🌻</h3>
     <div class="giveText">Digital Sunflowers - always there with you</div>
     <button class="pixel-btn" onclick="startApp()">Say thank you Sir 🌻</button>
 </div>
@@ -155,7 +155,7 @@ input {
             <h3> 👇🏻 </h3>
 
     <h3>When was the first time we met? 💭</h3>
-    <input type="text" id="dateInput" placeholder="Write in this format (1 Jan 26)">
+    <input type="text" id="dateInput" placeholder="Format (1 Jan 26)">
     <button class="pixel-btn" onclick="checkDate()">Submit</button>
     <div id="errorMsg"></div>
 </div>
@@ -288,16 +288,25 @@ function move(){
     requestAnimationFrame(move);
 }
 
-/* Click Surprise */
-surprise.onclick=function(){
+surprise.onclick = function(){
+
+    // STOP first video completely
+    let firstVideo = document.getElementById("ytVideo1");
+    firstVideo.src = "";
+    
+    // Switch to final screen
     switchScreen("videoScreen","finalScreen");
-    document.getElementById("ytVideoFinal").src=
+
+    // Load final video
+    document.getElementById("ytVideoFinal").src =
     "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE?autoplay=1";
 };
+
 
 </script>
 </body>
 </html>
+
 
 
 
