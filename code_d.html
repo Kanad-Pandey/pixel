@@ -12,6 +12,7 @@
 body {
     font-family: 'Press Start 2P', cursive;
     overflow-x: hidden;
+    background: linear-gradient(135deg,#ffb6f9,#ff69b4,#ffc1e3);
 }
 
 /* GENERAL SCREEN */
@@ -24,31 +25,29 @@ body {
     align-items: center;
     text-align: center;
     padding: 20px;
+    position: relative;
 }
 
-/* 🌻 SUNFLOWER INTRO */
+/* 🌻 INTRO SCREEN */
 #introScreen {
     display:flex;
-    background: linear-gradient(#ffd54f,#ffb300);
     color:#4e342e;
-    position:relative;
     overflow:hidden;
 }
 
-.sunflower {
+/* Falling Sunflowers */
+.petal {
     position:absolute;
-    font-size:40px;
-    animation: floatSun 6s infinite ease-in-out alternate;
+    font-size:30px;
+    animation: fall linear forwards;
 }
 
-@keyframes floatSun {
-    from { transform: translateY(0px) rotate(0deg); }
-    to { transform: translateY(-20px) rotate(10deg); }
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity:0;
+    }
 }
-
-.sun1 { top:10%; left:10%; }
-.sun2 { bottom:15%; right:15%; }
-.sun3 { top:20%; right:10%; }
 
 .giveText {
     margin-top:30px;
@@ -129,9 +128,9 @@ input {
     position:fixed;
     width:8px;
     height:8px;
-    animation: fall 3s linear forwards;
+    animation: confall 3s linear forwards;
 }
-@keyframes fall {
+@keyframes confall {
     to { transform:translateY(100vh) rotate(360deg); opacity:0; }
 }
 
@@ -144,17 +143,19 @@ input {
     <div class="sunflower sun1">🌻</div>
     <div class="sunflower sun2">🌻</div>
     <div class="sunflower sun3">🌻</div>
-
+    
     <h2>For You 🌻</h2>
     <div class="giveText">Digital Sunflowers for Drishti - always there with you</div>
-    <button class="pixel-btn" onclick="startApp()">Say Thank you Sir 🌻</button>
+    <button class="pixel-btn" onclick="startApp()">Accept 🌻</button>
 </div>
 
-<!-- DATE SCREEN -->
+<!-- DATE -->
 <div id="dateScreen" class="screen">
-    <h2>Now you have to answer this first</h2>
+        <h3>Now you have to answer this first</h3>
+            <h3></h3>
+
     <h3>When was the first time we met? 💭</h3>
-    <input type="text" id="dateInput" placeholder="">
+    <input type="text" id="dateInput" placeholder="1 Feb 26">
     <button class="pixel-btn" onclick="checkDate()">Submit</button>
     <div id="errorMsg"></div>
 </div>
@@ -171,17 +172,15 @@ input {
 <!-- FIRST VIDEO SCREEN -->
 <div id="videoScreen" class="screen">
     <h2>This is for you 💖</h2>
-
     <div class="video-wrapper">
         <iframe id="ytVideo1" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
-
-    <button id="floatingSurprise">🎁 Surprise - Please Click Me</button>
+    <button id="floatingSurprise">🎁 Surprise - Please click me</button>
 </div>
 
-<!-- FINAL VIDEO SCREEN -->
+<!-- FINAL SCREEN -->
 <div id="finalScreen" class="screen">
-    <h2>Me in Virtual Reality</h2>
+    <h2>Just For You 💍</h2>
     <div class="video-wrapper">
         <iframe id="ytVideoFinal" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
@@ -203,6 +202,21 @@ let yaySound=document.getElementById("yaySound");
 let yesBtn=document.getElementById("yesBtn");
 let noBtn=document.getElementById("noBtn");
 
+/* Falling Sunflowers */
+function startPetals(){
+    setInterval(()=>{
+        let petal=document.createElement("div");
+        petal.className="petal";
+        petal.innerHTML="🌻";
+        petal.style.left=Math.random()*100+"vw";
+        petal.style.animationDuration=(3+Math.random()*3)+"s";
+        document.getElementById("introScreen").appendChild(petal);
+        setTimeout(()=>petal.remove(),6000);
+    },400);
+}
+startPetals();
+
+/* Screen Switch */
 function switchScreen(hide,show){
     document.getElementById(hide).style.display="none";
     document.getElementById(show).style.display="flex";
@@ -240,9 +254,7 @@ yesBtn.addEventListener("click",()=>{
         switchScreen("mainScreen","videoScreen");
         document.getElementById("ytVideo1").src=
         "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
-
         startFloatingSurprise();
-
     },1200);
 });
 
@@ -259,7 +271,7 @@ function launchConfetti(){
     }
 }
 
-/* FLOATING SURPRISE */
+/* Floating Surprise */
 let surprise=document.getElementById("floatingSurprise");
 let x=100,y=100,dx=2,dy=2;
 
@@ -267,28 +279,22 @@ function startFloatingSurprise(){
     surprise.style.display="block";
     move();
 }
-
 function move(){
-    x+=dx;
-    y+=dy;
-
+    x+=dx; y+=dy;
     if(x+surprise.offsetWidth>window.innerWidth||x<0) dx*=-1;
     if(y+surprise.offsetHeight>window.innerHeight||y<0) dy*=-1;
-
     surprise.style.left=x+"px";
     surprise.style.top=y+"px";
-
     requestAnimationFrame(move);
 }
 
-/* CLICK SURPRISE */
+/* Click Surprise */
 surprise.onclick=function(){
     switchScreen("videoScreen","finalScreen");
     document.getElementById("ytVideoFinal").src=
-    "https://www.youtube.com/embed/iCSg_ul3G2w?autoplay=1";
+    "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE?autoplay=1";
 };
 
 </script>
 </body>
 </html>
-
