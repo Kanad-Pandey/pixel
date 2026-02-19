@@ -31,19 +31,16 @@ body {
 .fade-in { animation: fadeIn 0.8s forwards; }
 @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
 
-/* INTRO */
 #introScreen {
     display: flex;
     background: black;
     color: white;
 }
 
-/* HEADINGS */
 h1,h2,h3 {
     font-size: clamp(18px,4vw,26px);
 }
 
-/* INPUT */
 input {
     margin-top: 20px;
     padding: 12px;
@@ -51,10 +48,9 @@ input {
     max-width: 300px;
     border: 3px solid black;
     text-align: center;
-    font-family: 'Press Start 2P', cursive;
+    font-family: inherit;
 }
 
-/* BUTTONS */
 .pixel-btn {
     margin-top: 20px;
     padding: 12px 20px;
@@ -184,18 +180,23 @@ input {
     </div>
 </div>
 
-<audio id="bgMusic" loop>
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4e7c4f9b1a.mp3" type="audio/mpeg">
+<!-- AUDIO FILES -->
+<audio id="bgMusic" preload="auto" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="yaySound" preload="auto">
+    <source src="yay.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
 let bgMusic = document.getElementById("bgMusic");
+let yaySound = document.getElementById("yaySound");
 let yesBtn = document.getElementById("yesBtn");
 let noBtn = document.getElementById("noBtn");
 let yesScale = 1;
 
-/* FADE SWITCH */
 function switchScreen(hide, show){
     document.getElementById(hide).style.display="none";
     let s=document.getElementById(show);
@@ -206,6 +207,7 @@ function switchScreen(hide, show){
 /* START */
 function startApp(){
     switchScreen("introScreen","dateScreen");
+    bgMusic.volume = 0.6;
     bgMusic.play().catch(()=>{});
 }
 
@@ -215,8 +217,7 @@ function checkDate(){
     if(["1 feb 26","01 feb 26","1 february 26"].includes(input)){
         switchScreen("dateScreen","mainScreen");
     } else {
-        let e=document.getElementById("errorMsg");
-        e.innerHTML="That's not our special day 😢";
+        document.getElementById("errorMsg").innerHTML="That's not our special day 😢";
     }
 }
 
@@ -231,19 +232,37 @@ function moveNo(){
 noBtn.addEventListener("mouseover",moveNo);
 noBtn.addEventListener("click",moveNo);
 
-/* YES */
+/* YES CLICK */
 yesBtn.addEventListener("click",()=>{
-    bgMusic.pause();
+
+    // Smooth fade out background music
+    let fade = setInterval(()=>{
+        if(bgMusic.volume>0.05){
+            bgMusic.volume-=0.05;
+        } else {
+            bgMusic.pause();
+            bgMusic.currentTime=0;
+            clearInterval(fade);
+        }
+    },100);
+
+    yaySound.volume=1;
+    yaySound.play().catch(()=>{});
+
     launchConfetti();
     heartRain();
+
     setTimeout(()=>{
         switchScreen("mainScreen","videoScreen");
         launchStars();
+
         document.getElementById("ytVideo1").src=
         "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
-        setTimeout(()=>{ 
+
+        setTimeout(()=>{
             document.getElementById("surpriseBtn").style.display="block";
         },5000);
+
     },1500);
 });
 
